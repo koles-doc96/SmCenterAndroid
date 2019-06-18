@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">sm-center</string>
+    <string name="login">Войти</string>
+    <string name="numberPhone">Номер телефона</string>
+    <string name="password">Пароль</string>
+    <string name="phone">1234567890</string>
+    <string name="warningTost">Заполните поля</string>
+    <string name="incorrectValues">Неккоректные данные</string>
+    <string name="incorrectPassword">неверный пароль</string>
+    <string name="requestUrl">http://uk-gkh.org/stolitsa/MobileAPI/AuthenticateAccount.ashx?</string>
+    <string name="phoneParam">phone</string>
+    <string name="passwordParam">pwd</string>
+    <string name="rusCode">+7</string>
+    <string name="connectWarning">Ошибка сети \n попробуйте еще раз</string>
+</resources>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:mask="http://schemas.android.com/apk/res-auto"
+    android:background="#EEEEEE"
+    tools:context=".MainActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <br.com.sapereaude.maskedEditText.MaskedEditText
+            android:id="@+id/phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:ems="10"
+            android:inputType="phone"
+            mask:allowed_chars="1234567890"
+            mask:mask="+7(###)###-##-##"
+            />
+
+        <EditText
+            android:id="@+id/pwd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/phone"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="40dp"
+            android:autofillHints="Пароль"
+            android:contentDescription="@string/password"
+            android:ems="10"
+            android:inputType="textPassword"
+            tools:targetApi="o" />
+
+        <Button
+            android:id="@+id/login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/pwd"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="40dp"
+            android:onClick="login"
+            android:text="@string/login" />
+    </RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
