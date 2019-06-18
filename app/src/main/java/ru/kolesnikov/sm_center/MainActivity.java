@@ -1,6 +1,6 @@
 package ru.kolesnikov.sm_center;
 
-import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -9,8 +9,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
-
-import androidx.appcompat.app.AppCompatActivity;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.client.ResponseHandler;
@@ -25,9 +23,9 @@ import br.com.sapereaude.maskedEditText.MaskedEditText;
 import ru.kolesnikov.sm_center.passworMask.AsteriskPasswordTransformationMethod;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends Activity {
 
-    public static final String INCORECT_PASSWORD = "2";
+    public static final String INCORRECT_PASSWORD = "2";
     public static final String INCORRECT_VALUES = "1";
     public static final String AMPERSAND = "&";
     public static final String EQUALITY = "=";
@@ -79,18 +77,14 @@ public class MainActivity extends AppCompatActivity {
                 log.info("Response: " + response);
                 if (StringUtils.isNotEmpty(response)
                         && !INCORRECT_VALUES.contains(response)
-                        && !INCORECT_PASSWORD.contains(response)) {
+                        && !INCORRECT_PASSWORD.contains(response)) {
                     mSettings = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = mSettings.edit();
                     editor.putString(APP_PREFERENCES_RESPONSE, response);
                     editor.apply();
-
-                    Intent questionIntent = new Intent(MainActivity.this,
-                            ResultActivity.class);
-                    startActivityForResult(questionIntent, 1);
-                    overridePendingTransition(R.anim.right_in, R.anim.left_out);
+                    startActivity();
                     return response;
-                } else if (INCORECT_PASSWORD.contains(response)) {
+                } else if (INCORRECT_PASSWORD.contains(response)) {
                     showToast(getString(R.string.incorrectPassword));
                 } else {
                     showToast(getString(R.string.incorrectValues));
@@ -105,6 +99,17 @@ public class MainActivity extends AppCompatActivity {
             MainActivity.this.runOnUiThread(new Runnable() {
                 public void run() {
                     Toast.makeText(MainActivity.this, text, Toast.LENGTH_LONG).show();
+                }
+            });
+        }
+
+        private void startActivity() {
+            MainActivity.this.runOnUiThread(new Runnable() {
+                public void run() {
+                    Intent questionIntent = new Intent(MainActivity.this,
+                            ResultActivity.class);
+                    startActivityForResult(questionIntent, 1);
+                    overridePendingTransition(R.anim.right_in, R.anim.left_out);
                 }
             });
         }
