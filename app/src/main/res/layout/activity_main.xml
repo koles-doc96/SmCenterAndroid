@@ -34,6 +34,7 @@
             android:contentDescription="@string/password"
             android:ems="10"
             android:inputType="textPassword"
+            android:hint="@string/password"
             tools:targetApi="o" />
 
         <Button
@@ -45,5 +46,15 @@
             android:layout_marginTop="40dp"
             android:onClick="login"
             android:text="@string/login" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_above="@id/phone"
+            android:layout_marginBottom="15dp"
+            android:textSize="25dp"
+            android:text="@string/numberPhone" />
     </RelativeLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
