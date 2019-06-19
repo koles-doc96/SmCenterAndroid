@@ -11,6 +11,17 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/MethodSave"
+            android:layout_above="@id/radioSaveGroup"
+            android:layout_centerInParent="true"
+            android:layout_marginBottom="10dp"
+            android:textSize="25sp"
+            />
+
         <com.github.pinball83.maskededittext.MaskedEditText
             android:id="@+id/phone"
             android:layout_width="wrap_content"
@@ -53,7 +64,32 @@
             android:layout_centerInParent="true"
             android:layout_above="@id/phone"
             android:layout_marginBottom="15dp"
-            android:textSize="25dp"
+            android:textSize="25sp"
             android:text="@string/numberPhone" />
+
+        <RadioGroup
+            android:id="@+id/radioSaveGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/textView"
+            android:layout_centerInParent="true"
+            android:layout_marginBottom="40dp">
+
+            <RadioButton
+                android:id="@+id/radioButtonShared"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:checked="true"
+                android:text="@string/sharedpreferences" />
+
+            <RadioButton
+                android:id="@+id/radioButtonSql"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:checked="false"
+                android:text="@string/sql" />
+        </RadioGroup>
     </RelativeLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

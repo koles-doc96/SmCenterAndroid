@@ -11,4 +11,7 @@
     <string name="passwordParam">pwd</string>
     <string name="rusCode">+7</string>
     <string name="connectWarning">Ошибка сети \n попробуйте еще раз</string>
+    <string name="sharedpreferences">SharedPreferences</string>
+    <string name="sql">Sql</string>
+    <string name="MethodSave">Метод хранения</string>
 </resources>

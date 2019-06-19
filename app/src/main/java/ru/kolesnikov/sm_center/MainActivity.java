@@ -1,40 +1,31 @@
 package ru.kolesnikov.sm_center;
 
 import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.Toast;
 
 import com.github.pinball83.maskededittext.MaskedEditText;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.http.client.ResponseHandler;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.BasicResponseHandler;
-import org.apache.http.impl.client.DefaultHttpClient;
 
-import java.io.IOException;
-import java.util.logging.Logger;
-
+import ru.kolesnikov.sm_center.connection.RequestConnections;
 import ru.kolesnikov.sm_center.passworMask.AsteriskPasswordTransformationMethod;
+import ru.kolesnikov.sm_center.savedata.DataReadOrSave;
+import ru.kolesnikov.sm_center.savedata.SharedPreferencesSave;
+import ru.kolesnikov.sm_center.savedata.SqlSave;
 
 
 public class MainActivity extends Activity {
 
-    public static final String INCORRECT_PASSWORD = "2";
-    public static final String INCORRECT_VALUES = "1";
-    public static final String AMPERSAND = "&";
-    public static final String EQUALITY = "=";
     private MaskedEditText phone;
     private EditText pwd;
     private Toast toast;
-    public static final String APP_PREFERENCES = "mysettings";
-    public static final String APP_PREFERENCES_RESPONSE = "Response";
+    private RadioButton radioButtonSharedPreferences;
+    private RadioButton radioButtonSql;
+    private DataReadOrSave readOrSave;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +35,13 @@ public class MainActivity extends Activity {
         pwd = findViewById(R.id.pwd);
         pwd.setTransformationMethod(new AsteriskPasswordTransformationMethod());
 
+        radioButtonSharedPreferences = findViewById(R.id.radioButtonShared);
+        radioButtonSharedPreferences.setOnClickListener(radioButtonClickListener);
+
+        radioButtonSql = findViewById(R.id.radioButtonSql);
+        radioButtonSql.setOnClickListener(radioButtonClickListener);
+
+        readOrSave = new DataReadOrSave(new SharedPreferencesSave(getApplicationContext()));
 
     }
 
@@ -51,7 +49,7 @@ public class MainActivity extends Activity {
         String phoneNumber = phone.getUnmaskedText();
         String password = pwd.getText().toString();
         if (StringUtils.isNotEmpty(phoneNumber) && StringUtils.isNotEmpty(password)) {
-            RequestConnection requestConnection = new RequestConnection();
+            RequestConnections requestConnection = new RequestConnections(getApplicationContext(), readOrSave);
             requestConnection.execute(phoneNumber, password);
         } else {
             toast = Toast.makeText(getApplicationContext(),
@@ -60,61 +58,19 @@ public class MainActivity extends Activity {
         }
     }
 
-    class RequestConnection extends AsyncTask<String, String, String> {
-
-        private SharedPreferences mSettings;
-        private Logger log = Logger.getLogger(RequestConnection.class.getName());
-
+    View.OnClickListener radioButtonClickListener = new View.OnClickListener() {
         @Override
-        protected String doInBackground(String... strings) {
-            try {
-                DefaultHttpClient hc = new DefaultHttpClient();
-                ResponseHandler<String> res = new BasicResponseHandler();
-                HttpGet httpGet = new HttpGet(getString(R.string.requestUrl)
-                        + getString(R.string.phoneParam) + EQUALITY + getString(R.string.rusCode) + strings[0]
-                        + AMPERSAND + getString(R.string.passwordParam) + EQUALITY + strings[1]);
-                log.info("Request Url: " + httpGet.getRequestLine().getUri());
-                String response = hc.execute(httpGet, res);
-                log.info("Response: " + response);
-                if (StringUtils.isNotEmpty(response)
-                        && !INCORRECT_VALUES.contains(response)
-                        && !INCORRECT_PASSWORD.contains(response)) {
-                    mSettings = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
-                    SharedPreferences.Editor editor = mSettings.edit();
-                    editor.putString(APP_PREFERENCES_RESPONSE, response);
-                    editor.apply();
-                    startActivity();
-                    return response;
-                } else if (INCORRECT_PASSWORD.contains(response)) {
-                    showToast(getString(R.string.incorrectPassword));
-                } else {
-                    showToast(getString(R.string.incorrectValues));
-                }
-            } catch (IOException e) {
-                log.warning(e.getMessage());
+        public void onClick(View view) {
+            RadioButton rb = (RadioButton) view;
+            switch (rb.getId()) {
+                case R.id.radioButtonShared:
+                    readOrSave.setSaveData(new SharedPreferencesSave(getApplicationContext()));
+                    break;
+                case R.id.radioButtonSql:
+                    readOrSave.setSaveData(new SqlSave(getApplicationContext()));
+                    break;
             }
-            return null;
         }
-
-        private void showToast(final String text) {
-            MainActivity.this.runOnUiThread(new Runnable() {
-                public void run() {
-                    Toast.makeText(MainActivity.this, text, Toast.LENGTH_LONG).show();
-                }
-            });
-        }
-
-        private void startActivity() {
-            MainActivity.this.runOnUiThread(new Runnable() {
-                public void run() {
-                    Intent questionIntent = new Intent(MainActivity.this,
-                            ResultActivity.class);
-                    startActivityForResult(questionIntent, 1);
-                    overridePendingTransition(R.anim.right_in, R.anim.left_out);
-                }
-            });
-        }
-    }
-
+    };
 
 }
