@@ -8,4 +8,19 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="LeftToRight" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:activityOpenEnterAnimation">
+            @anim/right_in
+        </item>
+        <item name="android:activityOpenExitAnimation">
+            @anim/left_out
+        </item>
+        <item name="android:activityCloseExitAnimation">
+            @anim/left_out
+        </item>
+        <item name="android:activityCloseEnterAnimation">
+            @anim/right_in
+        </item>
+    </style>
+
 </resources>
