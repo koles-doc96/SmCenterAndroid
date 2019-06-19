@@ -10,6 +10,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.github.pinball83.maskededittext.MaskedEditText;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpGet;
@@ -19,7 +21,6 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import java.io.IOException;
 import java.util.logging.Logger;
 
-import br.com.sapereaude.maskedEditText.MaskedEditText;
 import ru.kolesnikov.sm_center.passworMask.AsteriskPasswordTransformationMethod;
 
 
@@ -47,7 +48,7 @@ public class MainActivity extends Activity {
     }
 
     public void login(View view) {
-        String phoneNumber = phone.getRawText();
+        String phoneNumber = phone.getUnmaskedText();
         String password = pwd.getText().toString();
         if (StringUtils.isNotEmpty(phoneNumber) && StringUtils.isNotEmpty(password)) {
             RequestConnection requestConnection = new RequestConnection();

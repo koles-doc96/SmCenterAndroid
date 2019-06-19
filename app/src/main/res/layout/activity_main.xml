@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:mask="http://schemas.android.com/apk/res-auto"
     android:background="#EEEEEE"
     tools:context=".MainActivity">
 
@@ -12,15 +11,16 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <br.com.sapereaude.maskedEditText.MaskedEditText
+        <com.github.pinball83.maskededittext.MaskedEditText
             android:id="@+id/phone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:ems="10"
             android:inputType="phone"
-            mask:allowed_chars="1234567890"
-            mask:mask="+7(###)###-##-##"
+            app:notMaskedSymbol="*"
+            app:mask="+7 (***) *** **-**"
+            app:maskIconColor="@color/colorPrimary"
             />
 
         <EditText
@@ -31,7 +31,6 @@
             android:layout_centerInParent="true"
             android:layout_marginTop="40dp"
             android:autofillHints="Пароль"
-            android:contentDescription="@string/password"
             android:ems="10"
             android:inputType="textPassword"
             android:hint="@string/password"
